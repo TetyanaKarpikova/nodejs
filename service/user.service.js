@@ -11,7 +11,6 @@ const errorMessages = require('../error/error.messages');
 module.exports = {
     findUsers: async () => {
         const allUsers = await readFile(filePath);
-
         
         return JSON.parse(allUsers.toString());
     },
@@ -32,6 +31,7 @@ module.exports = {
         const jsonData = JSON.parse(allUsers.toString());
 
         const findUser = jsonData.find(user => user.email === userObject.email);
+        
         if (findUser) {
             throw new Error(errorMessages.USER_EXIST['en']);
         }
@@ -46,6 +46,7 @@ module.exports = {
         const jsonData = JSON.parse(allUsers.toString());
 
         const filterUser = jsonData.filter(user => user.name !== userName);
+        
         if (jsonData.length === filterUser.length) {
             throw new Error(errorMessages.USER_DOES_NOT_DELETE['en']);
         }
