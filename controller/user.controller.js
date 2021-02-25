@@ -6,6 +6,9 @@ module.exports = {
         try {
             const users = await userService.findUsers();
 
+
+
+            
             res.json(users);
         } catch (e) {
             res.status(errorCodes.NOTFOUND).json(e.message);
