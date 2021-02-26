@@ -5,9 +5,9 @@ module.exports = {
     checkIsIdValid: (req, res, next) => {
         try {
             const userId = +req.params.userId;
-
+            const preferL = 'en';
             if (userId < 0 || !Number.isInteger(userId) || Number.isNaN(userId)) {
-                throw new Error(errorMessages.NOT_VALID_ID['en']);
+                throw new Error(errorMessages.NOT_VALID_ID[preferL]);
             }
 
             next();
@@ -38,4 +38,4 @@ module.exports = {
         }
     }
 
-}
+};

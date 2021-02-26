@@ -11,16 +11,16 @@ const errorMessages = require('../error/error.messages');
 module.exports = {
     findUsers: async () => {
         const allUsers = await readFile(filePath);
-        
+
         return JSON.parse(allUsers.toString());
     },
 
     findUserById: async (userId) => {
         const allUsers = await readFile(filePath);
         const jsonData = JSON.parse(allUsers.toString());
-
+        const preferL = 'en';
         if (!jsonData[userId]) {
-            throw new Error(errorMessages.USER_ID_NOT_FOUND['en']);
+            throw new Error(errorMessages.USER_ID_NOT_FOUND[preferL]);
         }
 
         return jsonData[userId];
@@ -31,9 +31,10 @@ module.exports = {
         const jsonData = JSON.parse(allUsers.toString());
 
         const findUser = jsonData.find(user => user.email === userObject.email);
-        
+        const preferL = 'en';
+
         if (findUser) {
-            throw new Error(errorMessages.USER_EXIST['en']);
+            throw new Error(errorMessages.USER_EXIST[preferL]);
         }
 
         jsonData.push(userObject);
@@ -46,11 +47,12 @@ module.exports = {
         const jsonData = JSON.parse(allUsers.toString());
 
         const filterUser = jsonData.filter(user => user.name !== userName);
-        
+        const preferL = 'en';
+
         if (jsonData.length === filterUser.length) {
-            throw new Error(errorMessages.USER_DOES_NOT_DELETE['en']);
+            throw new Error(errorMessages.USER_DOES_NOT_DELETE[preferL]);
         }
 
         await writeFile(filePath, JSON.stringify(filterUser));
     }
-}
+};
