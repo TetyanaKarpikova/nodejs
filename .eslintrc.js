@@ -1,3 +1,4 @@
+/* eslint-disable */
 module.exports = {
     env: {
         browser: true,
@@ -23,6 +24,7 @@ module.exports = {
             'error',
             { minItems: 2 },
         ],
+        'arrow-parens': 0,
         'arrow-body-style': 'error',
         'block-scoped-var': 'error',
         complexity: 'error',
@@ -33,6 +35,14 @@ module.exports = {
         'no-case-declarations': 'off',
         'dot-notation': 'error',
         'eol-last': 'error',
+        // 'eslint quote-props': [
+        //     'error',
+        //     'consistent'
+        // ],
+        // 'eslint dot-notation': [
+        //     'error',
+        //     { 'allowKeywords': 0 }
+        // ],
         eqeqeq: 'error',
         'guard-for-in': 'off',
         'global-require': 'off',
@@ -42,6 +52,8 @@ module.exports = {
             { SwitchCase: 1 },
         ],
         'max-classes-per-file': 'off',
+        'linebreak-style': 0,
+        'linebreak-style': 0,
         'newline-per-chained-call': 'error',
         'new-parens': 'error',
         'no-alert': 'error',
@@ -115,6 +127,10 @@ module.exports = {
         'no-var': 'error',
         'no-void': 'error',
         'object-shorthand': 'error',
+        'object-curly-newline': [
+            'error',
+            { 'multiline': true }
+        ],
         'one-var': [
             'error',
             'never',
@@ -149,8 +165,6 @@ module.exports = {
     },
     overrides: [{
         files: ['**/*.spec.ts'],
-        env: {
-            jest: true,
-        },
+        env: { jest: true, },
     }],
 };
