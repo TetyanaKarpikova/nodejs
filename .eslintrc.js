@@ -25,6 +25,14 @@ module.exports = {
             { minItems: 2 },
         ],
         'arrow-parens': 0,
+        // 'func-names': [
+        //     'warn',
+        //     'as-needed'
+        // ],
+        'no-use-before-define': [
+            'error',
+            { functions: false }
+        ],        
         'arrow-body-style': 'error',
         'block-scoped-var': 'error',
         complexity: 'error',
@@ -131,6 +139,7 @@ module.exports = {
             'error',
             { 'multiline': true }
         ],
+
         'one-var': [
             'error',
             'never',
