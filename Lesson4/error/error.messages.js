@@ -36,5 +36,9 @@ module.exports = {
 
     TOO_LONG_NAME_MODEL: { en: 'Too many characters in the model name' },
 
-    PRICE_NEGATIVE: { en: 'The price cannot be negative' }
+    PRICE_NEGATIVE: { en: 'The price cannot be negative' },
+
+    NOT_VALID_USER: { en: 'Cannot find user by Id' },
+
+    EMAIL_IS_EXIST: { en: 'Email is already exists' }
 };

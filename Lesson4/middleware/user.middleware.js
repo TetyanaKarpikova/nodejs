@@ -1,7 +1,7 @@
 const errorMessages = require('../error/error.messages');
 const errorCodes = require('../constant/errorCodes.enum');
 
-// const userService = require('../service/user.service');
+const userService = require('../service/user.service');
 
 module.exports = {
     checkIsIdValid: (req, res, next) => {
@@ -63,8 +63,41 @@ module.exports = {
         try {
             const { gender, preferL = 'en' } = req.body;
 
-            if (gender.toLowerCase() !== 'male' || gender.toLowerCase() !== 'female') {
+            if (gender.toLowerCase() !== 'male' && gender.toLowerCase() !== 'female') {
                 throw new Error(errorMessages.CHOOSE_GENDER[preferL]);
+            }
+
+            next();
+        } catch (e) {
+            res.status(errorCodes.NOTFOUND).json(e.message);
+        }
+    },
+
+    checkSearchUser: async (req, res, next) => {
+        try {
+            const { userId } = req.params;
+            const { preferL = 'en' } = req.query;
+
+            const user = await userService.findUserById(userId);
+
+            if (!user) {
+                throw new Error(errorMessages.NOT_VALID_USER[preferL]);
+            }
+
+            next();
+        } catch (e) {
+            res.status(errorCodes.NOTFOUND).json(e.message);
+        }
+    },
+
+    checkIsEmailExpect: async (req, res, next) => {
+        try {
+            const { email, preferL = 'en' } = req.body;
+
+            const userEmail = await userService.findUsers({ email });
+
+            if (userEmail.length > 0) {
+                throw new Error(errorMessages.EMAIL_IS_EXIST[preferL]);
             }
 
             next();

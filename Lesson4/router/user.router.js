@@ -8,10 +8,14 @@ router.get('/', userController.getAllUsers);
 router.post('/',
     userMiddleware.checkIsUserValid,
     userMiddleware.checkIsAgeValid,
+    userMiddleware.checkIsEmailExpect,
     userMiddleware.checkIsGenderValid,
     userController.createUser);
 
-router.get('/:userId', userMiddleware.checkIsIdValid, userController.getSingleUser);
+router.get('/:userId',
+    userMiddleware.checkIsIdValid,
+    userMiddleware.checkSearchUser,
+    userController.getSingleUser);
 
 router.delete('/:userId', userMiddleware.checkIsIdValid, userController.deleteUser);
 
