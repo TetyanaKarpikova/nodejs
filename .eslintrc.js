@@ -25,7 +25,7 @@ module.exports = {
             { minItems: 2 },
         ],
         'arrow-parens': 0,
-        // 'func-names': [
+        // 'func-names': [ 
         //     'warn',
         //     'as-needed'
         // ],
