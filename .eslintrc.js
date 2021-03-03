@@ -137,7 +137,8 @@ module.exports = {
         'object-shorthand': 'error',
         'object-curly-newline': [
             'error',
-            { 'multiline': true }
+            { "consistent": true }
+            // { 'multiline': true }
         ],
 
         'one-var': [
