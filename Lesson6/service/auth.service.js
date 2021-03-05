@@ -14,8 +14,8 @@ module.exports = {
 
     findAuth: (auth) => o_authModel.findOne(auth),
 
-    refreshToken: async (user, userIdToken) => {
-        await o_authModel.findByIdAndDelete(userIdToken);
+    refreshToken: async (user) => {
+        await o_authModel.findByIdAndDelete(user._id);
 
         const tokens = tokenizer();
 
