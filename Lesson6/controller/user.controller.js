@@ -42,9 +42,13 @@ module.exports = {
         try {
             const { userId } = req.params;
 
+            if (userId !== req.user._id.toString()) {
+                throw new Error('Unauthorized');
+            }
+
             await userService.deleteUser(userId);
 
-            res.json('User is deleted');
+            res.json(`${userId} is deleted`);
         } catch (e) {
             res.json(e.message);
         }
