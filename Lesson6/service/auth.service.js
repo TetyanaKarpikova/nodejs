@@ -12,5 +12,16 @@ module.exports = {
         return tokens;
     },
 
-    findAuth: (auth) => o_authModel.findOne(auth)
+    findAuth: (auth) => o_authModel.findOne(auth),
+
+    refreshToken: async (user, userIdToken) => {
+        await o_authModel.findByIdAndDelete(userIdToken);
+
+        const tokens = tokenizer();
+
+        await o_authModel.create({ ...tokens, _user_id: user._id });
+
+        return tokens;
+    }
+
 };
