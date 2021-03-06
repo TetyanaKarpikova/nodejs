@@ -1,13 +1,11 @@
-const { userModel } = require('../dataBase/model');
-const { o_authService } = require('../service');
-const authService = require('../service/auth.service');
+const { o_authService, userService } = require('../service');
 
 module.exports = {
     authUser: async (req, res) => {
         try {
             const { email, password } = req.body;
 
-            const user = await userModel.findOne({ email });
+            const user = await userService.findOneUser(email);
 
             if (!user) {
                 throw new Error('NO USER');
@@ -25,7 +23,7 @@ module.exports = {
         try {
             const { refToken } = req;
 
-            const tokens = await authService.newToken(refToken);
+            const tokens = await o_authService.newToken(refToken);
 
             res.json(tokens);
         } catch (e) {

@@ -8,5 +8,7 @@ module.exports = {
 
     createUser: (userObject) => User.create(userObject),
 
-    deleteUser: (userID) => User.findByIdAndDelete(userID)
+    deleteUser: (userID) => User.findByIdAndDelete(userID),
+
+    findOneUser: (email) => User.findOne({ email })
 };

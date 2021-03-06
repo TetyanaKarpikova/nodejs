@@ -4,6 +4,6 @@ const { authController } = require('../controller');
 const { authMiddleware } = require('../middleware');
 
 router.post('/', authController.authUser);
-router.post('/refresh', authMiddleware.checkToken, authController.authUser);
+router.post('/refresh', authMiddleware.checkToken, authController.refreshToken);
 
 module.exports = router;
