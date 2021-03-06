@@ -2,7 +2,7 @@ const jwt = require('jsonwebtoken');
 
 const { constants } = require('../constant');
 const { o_authService } = require('../service');
-const { JWT_SECRET } = require('../config/config');
+const { JWT_SECRET, JWT_REFRESH_SECRET } = require('../config/config');
 
 module.exports = {
     checkAccessTokenMiddleware: async (req, res, next) => {
@@ -26,6 +26,34 @@ module.exports = {
             }
 
             req.user = tokens._user_id;
+            next();
+        } catch (e) {
+            res.json(e.message);
+        }
+    },
+
+    checkToken: async (req, res, next) => {
+        try {
+            const refresh_token = req.get(constants.AUTHORIZATION);
+
+            if (!refresh_token) {
+                throw new Error('Token is required');
+            }
+
+            jwt.verify(refresh_token, JWT_REFRESH_SECRET, (err) => {
+                if (err) {
+                    throw new Error('Not valid token');
+                }
+            });
+
+            const tokens = await o_authService.findAuth({ refresh_token }).populate('_user_id');
+
+            if (!tokens) {
+                throw new Error('Not valid token');
+            }
+
+            req.refToken = tokens;
+
             next();
         } catch (e) {
             res.json(e.message);
