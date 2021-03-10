@@ -2,6 +2,8 @@ const jwt = require('jsonwebtoken');
 
 const { constants } = require('../constant');
 const { o_authService } = require('../service');
+const ErrorHandler = require('../error/ErrorHandler');
+const errorMessage = require('../error/error.messages');
 const { JWT_SECRET, JWT_REFRESH_SECRET } = require('../config/config');
 
 module.exports = {
@@ -10,25 +12,25 @@ module.exports = {
             const access_token = req.get(constants.AUTHORIZATION);
 
             if (!access_token) {
-                throw new Error('Token is required');
+                throw new ErrorHandler(errorMessage.TOKEN_IS_REQUIRED, 418);
             }
 
             jwt.verify(access_token, JWT_SECRET, (err) => {
                 if (err) {
-                    throw new Error('Not valid token');
+                    throw new ErrorHandler(errorMessage.NOT_VALID_TOKEN, 404);
                 }
             });
 
             const tokens = await o_authService.findAuth({ access_token }).populate('_user_id');
 
             if (!tokens) {
-                throw new Error('Not valid token');
+                throw new ErrorHandler(errorMessage.NOT_VALID_TOKEN, 404);
             }
 
             req.user = tokens._user_id;
             next();
         } catch (e) {
-            res.json(e.message);
+            next(e);
         }
     },
 
@@ -37,26 +39,26 @@ module.exports = {
             const refresh_token = req.get(constants.AUTHORIZATION);
 
             if (!refresh_token) {
-                throw new Error('Token is required');
+                throw new ErrorHandler(errorMessage.TOKEN_IS_REQUIRED, 418);
             }
 
             jwt.verify(refresh_token, JWT_REFRESH_SECRET, (err) => {
                 if (err) {
-                    throw new Error('Not valid token');
+                    throw new ErrorHandler(errorMessage.NOT_VALID_TOKEN, 404);
                 }
             });
 
             const tokens = await o_authService.findAuth({ refresh_token }).populate('_user_id');
 
             if (!tokens) {
-                throw new Error('Not valid token');
+                throw new ErrorHandler(errorMessage.NOT_VALID_TOKEN, 404);
             }
 
             req.refToken = tokens;
 
             next();
         } catch (e) {
-            res.json(e.message);
+            next(e);
         }
     }
 };

@@ -4,9 +4,8 @@ const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 
 // шлях до файлу .env
-// dotenv.config({ path: path.join(process.cwd(), '../.env') });
-
-dotenv.config();
+dotenv.config({ path: path.join(process.cwd(), '../.env') });
+// dotenv.config();
 
 const apiRouter = require('./router/api.router');
 const { MONGO_URL, PORT } = require('./config/config');
@@ -22,6 +21,15 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'static')));
 
 app.use('/', apiRouter);
+
+// eslint-disable-next-line no-unused-vars
+app.use('*', (err, req, res, next) => {
+    res
+        .status(err.status)
+        .json({
+            text: err.message
+        });
+});
 
 //----------------------
 app.listen(PORT, () => {

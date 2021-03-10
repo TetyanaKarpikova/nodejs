@@ -1,4 +1,4 @@
-const { errorCodesEnum } = require('../constant');
+const ErrorHandler = require('../error/ErrorHandler');
 
 const { carValidators } = require('../validator');
 
@@ -10,12 +10,12 @@ module.exports = {
             const [error] = await carValidators.idCarValidator.validate({ id: userId });
 
             if (error) {
-                throw new Error(error.details[0].message);
+                throw new ErrorHandler(error.details[0].message, 404);
             }
 
             next();
         } catch (e) {
-            res.status(errorCodesEnum.BAD_REQUEST).json(e.message);
+            next(e);
         }
     },
 
@@ -24,12 +24,12 @@ module.exports = {
             const { error } = carValidators.createCarValidator.validate(req.body);
 
             if (error) {
-                throw new Error(error.details[0].message);
+                throw new ErrorHandler(error.details[0].message, 404);
             }
 
             next();
         } catch (e) {
-            res.status(errorCodesEnum.BAD_REQUEST).json(e.message);
+            next(e);
         }
     }
 };

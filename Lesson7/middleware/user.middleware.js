@@ -1,5 +1,5 @@
-const { errorCodesEnum } = require('../constant');
 const errorMessages = require('../error/error.messages');
+const ErrorHandler = require('../error/ErrorHandler');
 
 const userService = require('../service/user.service');
 
@@ -12,12 +12,12 @@ module.exports = {
             const { error } = await userValidators.idUserValidator.validate({ id: userId });
 
             if (error) {
-                throw new Error(error.details[0].message);
+                throw new ErrorHandler(error.details[0].message, 404);
             }
 
             next();
         } catch (e) {
-            res.status(errorCodesEnum.BAD_REQUEST).json(e.message);
+            next(e);
         }
     },
 
@@ -26,7 +26,7 @@ module.exports = {
             const { error } = userValidators.createUserValidator.validate(req.body);
 
             if (error) {
-                throw new Error(error.details[0].message);
+                throw new ErrorHandler(error.details[0].message, 404);
             }
 
             const { email, preferL = 'en' } = req.body;
@@ -34,11 +34,11 @@ module.exports = {
             const userEmail = await userService.findUsers({ email });
 
             if (userEmail.length > 0) {
-                throw new Error(errorMessages.EMAIL_IS_EXIST[preferL]);
+                throw new ErrorHandler(errorMessages.EMAIL_IS_EXIST[preferL], 404);
             }
             next();
         } catch (e) {
-            res.status(errorCodesEnum.BAD_REQUEST).json(e.message);
+            next(e);
         }
     },
 
@@ -50,18 +50,18 @@ module.exports = {
             const user = await userService.findUserById(userId);
 
             if (!user) {
-                throw new Error(errorMessages.NOT_VALID_USER[preferL]);
+                throw new ErrorHandler(errorMessages.NOT_VALID_USER[preferL], 404);
             }
 
             const { error } = await userValidators.searchUserValidator.validate(user.toObject());
 
             if (error) {
-                throw new Error(error.details[0].message);
+                throw new ErrorHandler(error.details[0].message, 404);
             }
 
             next();
         } catch (e) {
-            res.status(errorCodesEnum.NOTFOUND).json(e.message);
+            next(e);
         }
     }
 };

@@ -1,5 +1,6 @@
-const userService = require('../service/user.service');
+const { mailService, userService } = require('../service');
 const { passwordHasher } = require('../helper');
+const { emailActionsEnum } = require('../constant');
 
 module.exports = {
     getAllUsers: async (req, res) => {
@@ -26,11 +27,13 @@ module.exports = {
 
     createUser: async (req, res) => {
         try {
-            const { password } = req.body;
+            const { password, email, name } = req.body;
 
             const hasPassword = await passwordHasher.hash(password);
 
             await userService.createUser({ ...req.body, password: hasPassword });
+
+            await mailService.sendMail(email, emailActionsEnum.WELCOME, { userName: name });
 
             res.status(201).json('User is created');
         } catch (e) {
@@ -45,6 +48,10 @@ module.exports = {
             if (userId !== req.user._id.toString()) {
                 throw new Error('Unauthorized');
             }
+
+            const { email, name } = req.user;
+
+            await mailService.sendMail(email, emailActionsEnum.DELETE_EMAIL, { userName: name });
 
             await userService.deleteUser(userId);
 
