@@ -9,8 +9,8 @@ router.post('/',
     userMiddlewares.checkIsUserValid,
     userController.createUser);
 
+router.use('/:userId', userMiddlewares.checkIsIdValid);
 router.get('/:userId',
-    userMiddlewares.checkIsIdValid,
     userMiddlewares.checkSearchUser,
     userController.getSingleUser);
 
