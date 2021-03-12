@@ -1,16 +1,16 @@
-const User = require('../dataBase/model/User');
+const { userModel } = require('../dataBase/model');
 require('../dataBase/model/Car');
 
 module.exports = {
-    findUsers: (filterObject) => User.find(filterObject),
+    findUsers: (filterObject) => userModel.find(filterObject),
 
-    findUserById: (userID) => User.findById(userID),
+    findUserById: (userID) => userModel.findById(userID),
 
-    createUser: (userObject) => User.create(userObject),
+    createUser: (userObject) => userModel.create(userObject),
 
-    deleteUser: (userID) => User.findByIdAndDelete(userID),
+    deleteUser: (userID) => userModel.findByIdAndDelete(userID),
 
-    findOneUser: (email) => User.findOne({ email }),
+    findOneUser: (email) => userModel.findOne({ email }),
 
-    updateUserById: (userId, updateObject) => User.updateOne({ _id: userId }, { $set: updateObject })
+    updateUserById: (userId, updateObject) => userModel.updateOne({ _id: userId }, { $set: updateObject })
 };

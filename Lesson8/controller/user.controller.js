@@ -1,13 +1,10 @@
 /* eslint-disable no-await-in-loop */
-/* eslint-disable no-use-before-define */
-const path = require('path');
 const fs = require('fs-extra').promises;
-const uuid = require('uuid').v1;
 
-const { mailService, userService } = require('../service');
+const { mailService, fileService, userService } = require('../service');
 const { passwordHasher } = require('../helper');
-const { emailActionsEnum } = require('../constant');
-const { successMessagesEnum } = require('../constant');
+const { emailActionsEnum, successMessagesEnum } = require('../constant');
+const errorMessages = require('../error/error.messages');
 
 module.exports = {
     getAllUsers: async (req, res, next) => {
@@ -41,7 +38,8 @@ module.exports = {
             const user = await userService.createUser({ ...req.body, password: hasPassword });
 
             if (avatar) {
-                const { fileDir, finalFilePath, uploadPath } = _uploadDirBuilder(avatar.name, 'photos', user._id);
+                const { fileDir, finalFilePath, uploadPath } = await fileService
+                    .uploadDirBuilder('user', avatar.name, 'photos', user._id);
 
                 await fs.mkdir(fileDir, { recursive: true });
                 await avatar.mv(finalFilePath);
@@ -51,7 +49,8 @@ module.exports = {
 
             if (docs) {
                 for (let i = 0; i < docs.length; i++) {
-                    const { fileDir, finalFilePath, uploadPath } = _uploadDirBuilder(docs[i].name, 'docs', user._id);
+                    const { fileDir, finalFilePath, uploadPath } = await fileService
+                        .uploadDirBuilder('user', docs[i].name, 'docs', user._id);
 
                     await fs.mkdir(fileDir, { recursive: true });
                     await docs[i].mv(finalFilePath);
@@ -73,7 +72,7 @@ module.exports = {
             const { userId } = req.params;
 
             if (userId !== req.user._id.toString()) {
-                throw new Error('Unauthorized');
+                throw new Error(errorMessages.UNAUTHORIZED);
             }
 
             const { email, name } = req.user;
@@ -88,20 +87,3 @@ module.exports = {
         }
     }
 };
-
-function _uploadDirBuilder(itemName, itemType, itemId) {
-    const pathWithoutStatis = path.join('user', `${itemId}`, `${itemType}`);
-    const fileDir = path.join(process.cwd(), 'static', pathWithoutStatis);
-    const fileExtension = itemName.split('.').pop();
-    //   other way
-    // const fileExtension = path.extname(avatar.name)
-
-    const photoName = `${uuid()}.${fileExtension}`;
-    // other way
-    // const photoName = `${uuid()}${fileExtension}`;
-
-    const finalFilePath = path.join(fileDir, photoName);
-    const uploadPath = path.join(pathWithoutStatis, photoName);
-
-    return { finalFilePath, uploadPath, fileDir };
-}

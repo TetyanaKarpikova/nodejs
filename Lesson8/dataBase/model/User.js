@@ -15,6 +15,7 @@ const userScheme = new Schema({
     email: { type: String, required: true },
     password: { type: String, required: true },
     avatar: { type: String },
+    docs: [{ type: String }],
     // cars: [carSubSheme]
     cars: [{ type: Schema.Types.ObjectId, ref: 'Car' }]
 

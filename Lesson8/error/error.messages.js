@@ -55,6 +55,8 @@ module.exports = {
 
     USER_ID_NOT_FOUND: { en: 'User id not found' },
 
+    UNAUTHORIZED: { en: 'Unauthorized' },
+
     WRONG_MAIL_ACTION: { en: 'Wrong mail action' }
 
 };

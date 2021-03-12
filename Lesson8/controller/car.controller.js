@@ -1,17 +1,21 @@
-const carService = require('../service/car.service');
+/* eslint-disable no-await-in-loop */
+const fs = require('fs-extra');
+
+const { carService, fileService } = require('../service');
+const { successMessagesEnum } = require('../constant');
 
 module.exports = {
-    getAllCars: async (req, res) => {
+    getAllCars: async (req, res, next) => {
         try {
             const cars = await carService.findCar();
 
             res.json(cars);
         } catch (e) {
-            res.status(400).json(e.message);
+            next(e);
         }
     },
 
-    getCarById: async (req, res) => {
+    getCarById: async (req, res, next) => {
         try {
             const { carId } = req.params;
 
@@ -19,29 +23,55 @@ module.exports = {
 
             res.json(car);
         } catch (e) {
-            res.status(400).json(e.message);
+            next(e);
         }
     },
 
-    createCar: async (req, res) => {
+    createCar: async (req, res, next) => {
         try {
-            await carService.createCar(req.body);
+            const { photos, docs } = req;
 
-            res.status(201).json('Car is created');
+            const car = await carService.createCar(req.body);
+
+            if (photos) {
+                for (let i = 0; i < photos.length; i++) {
+                    const { fileDir, finalFilePath, uploadPath } = await fileService
+                        .uploadDirBuilder('car', photos[i].name, 'photos', car._id);
+
+                    await fs.mkdir(fileDir, { recursive: true });
+                    await photos[i].mv(finalFilePath);
+
+                    await carService.updateCarById(car._id, { photos: uploadPath });
+                }
+            }
+
+            if (docs) {
+                for (let i = 0; i < docs.length; i++) {
+                    const { fileDir, finalFilePath, uploadPath } = await fileService
+                        .uploadDirBuilder('car', docs[i].name, 'docs', car._id);
+
+                    await fs.mkdir(fileDir, { recursive: true });
+                    await docs[i].mv(finalFilePath);
+
+                    await carService.updateCarById(car._id, { docs: uploadPath });
+                }
+            }
+
+            res.status(201).json(successMessagesEnum.CAR_IS_CREATED);
         } catch (e) {
-            res.status(400).json(e.message);
+            next(e);
         }
     },
 
-    deleteCar: async (req, res) => {
+    deleteCar: async (req, res, next) => {
         try {
             const { carId } = req.params;
 
             await carService.deleteCar(carId);
 
-            res.status(201).json('Car is deleted');
+            res.status(201).json(successMessagesEnum.CAR_IS_DELETED);
         } catch (e) {
-            res.status(400).json(e.message);
+            next(e);
         }
     }
 };
