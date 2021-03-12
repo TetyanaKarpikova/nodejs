@@ -10,5 +10,7 @@ module.exports = {
 
     deleteUser: (userID) => User.findByIdAndDelete(userID),
 
-    findOneUser: (email) => User.findOne({ email })
+    findOneUser: (email) => User.findOne({ email }),
+
+    updateUserById: (userId, updateObject) => User.updateOne({ _id: userId }, { $set: updateObject })
 };

@@ -1,4 +1,5 @@
 const express = require('express');
+const fileUpload = require('express-fileupload');
 const path = require('path');
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
@@ -15,19 +16,20 @@ const app = express();
 // eslint-disable-next-line no-use-before-define
 _connectDB();
 
+app.use(fileUpload());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.use(express.static(path.join(__dirname, 'static')));
+app.use(express.static(path.join(process.cwd(), 'static')));
 
 app.use('/', apiRouter);
 
 // eslint-disable-next-line no-unused-vars
 app.use('*', (err, req, res, next) => {
     res
-        .status(err.status)
+        .status(err.status || 500)
         .json({
-            text: err.message
+            text: err.message || ''
         });
 });
 

@@ -16,6 +16,8 @@ module.exports = {
         ua: 'Не всі поля заповнені'
     },
 
+    FILE_TOO_BIG: { en: 'File is too big' },
+
     NOT_VALID_USER: { en: 'Cannot find user by Id' },
 
     NO_USER: { en: 'No user' },
@@ -25,7 +27,11 @@ module.exports = {
         ua: 'Недійсний ідентифікатор'
     },
 
+    NOT_VALID_FILE: { en: 'Not valid file' },
+
     NOT_VALID_TOKEN: { en: 'Not valid token' },
+
+    ONLY_ONE_PHOTO: { en: 'You can upload only one photo' },
 
     PRICE_NEGATIVE: { en: 'The price cannot be negative' },
 

@@ -1,11 +1,13 @@
 const router = require('express').Router();
 
 const userController = require('../controller/user.controller');
-const { authMiddleware, userMiddlewares } = require('../middleware');
+const { authMiddleware, fileMiddleware, userMiddlewares } = require('../middleware');
 
 router.get('/', userController.getAllUsers);
 
 router.post('/',
+    fileMiddleware.checkFileMiddleware,
+    fileMiddleware.checkFileAvatar,
     userMiddlewares.checkIsUserValid,
     userController.createUser);
 
@@ -19,3 +21,9 @@ router.delete('/:userId',
     userController.deleteUser);
 
 module.exports = router;
+
+// "name": "newUser",
+// "age": "25",
+// "gender": "female",
+// "password": "1111$z",
+// "email": "tetyana.krn@gmail.com"

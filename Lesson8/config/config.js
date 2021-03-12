@@ -4,6 +4,6 @@ module.exports = {
     JWT_REFRESH_SECRET: process.env.JWT_REFRESH_SECRET || 'SECOND',
     PORT: 5000,
 
-    ROOT_EMAIL: process.env.ROOT_EMAIL || 'testEmail@gmail.om',
-    ROOT_EMAIL_PASSWORD: process.env.ROOT_EMAIL_PASSWORD || '1237654'
+    ROOT_EMAIL: process.env.ROOT_EMAIL || 'test@gmail.com',
+    ROOT_EMAIL_PASSWORD: process.env.ROOT_EMAIL_PASSWORD || '12345'
 };
