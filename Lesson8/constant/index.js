@@ -3,5 +3,6 @@ module.exports = {
     dataBaseTablesEnum: require('./dataBaseTables'),
     emailActionsEnum: require('./emailActions.enum'),
     errorCodesEnum: require('./errorCodes.enum'),
-    regexpEnum: require('./regexp.enum')
+    regexpEnum: require('./regexp.enum'),
+    successMessagesEnum: require('./succesMessages.enum')
 };

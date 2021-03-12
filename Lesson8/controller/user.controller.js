@@ -7,6 +7,7 @@ const uuid = require('uuid').v1;
 const { mailService, userService } = require('../service');
 const { passwordHasher } = require('../helper');
 const { emailActionsEnum } = require('../constant');
+const { successMessagesEnum } = require('../constant');
 
 module.exports = {
     getAllUsers: async (req, res, next) => {
@@ -61,7 +62,7 @@ module.exports = {
 
             await mailService.sendMail(email, emailActionsEnum.WELCOME, { userName: name });
 
-            res.json('User is created');
+            res.json(successMessagesEnum.USER_IS_CREATED);
         } catch (e) {
             next(e);
         }
@@ -81,7 +82,7 @@ module.exports = {
 
             await userService.deleteUser(userId);
 
-            res.json(`${userId} is deleted`);
+            res.json(successMessagesEnum.USER_IS_DELETED);
         } catch (e) {
             next(e);
         }

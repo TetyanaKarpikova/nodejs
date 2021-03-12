@@ -21,9 +21,3 @@ router.delete('/:userId',
     userController.deleteUser);
 
 module.exports = router;
-
-// "name": "newUser",
-// "age": "25",
-// "gender": "female",
-// "password": "1111$z",
-// "email": "tetyana.krn@gmail.com"
