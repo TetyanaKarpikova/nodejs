@@ -7,7 +7,7 @@ const { successMessagesEnum } = require('../constant');
 module.exports = {
     getAllCars: async (req, res, next) => {
         try {
-            const cars = await carService.findCar();
+            const cars = await carService.findCar(req.query);
 
             res.json(cars);
         } catch (e) {

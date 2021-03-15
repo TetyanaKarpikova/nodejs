@@ -1,3 +1,4 @@
+const fs = require('fs-extra').promises;
 const path = require('path');
 const uuid = require('uuid').v1;
 
@@ -18,6 +19,13 @@ module.exports = {
         const uploadPath = path.join(pathWithoutStatis, photoName);
 
         return { finalFilePath, uploadPath, fileDir };
+    },
+
+    deleteDir: async (dirBlock, itemType, itemId) => {
+        const pathWithoutStatis = path.join(`${dirBlock}`, `${itemId}`, `${itemType}`);
+        const filePath = path.join(process.cwd(), 'static', pathWithoutStatis);
+
+        await fs.rmdir(filePath, { recursive: true });
     }
 
 };
