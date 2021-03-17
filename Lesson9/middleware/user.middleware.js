@@ -2,7 +2,7 @@ const errorMessages = require('../error/error.messages');
 const ErrorHandler = require('../error/ErrorHandler');
 const { errorCodesEnum } = require('../constant');
 
-const userService = require('../service/user.service');
+const { userService } = require('../service');
 
 const { userValidators } = require('../validator');
 
