@@ -1,6 +1,10 @@
 /* eslint-disable quote-props */
 
-const { MYSQL_DATABASE, MYSQL_PASSWORD, MYSQL_USER, MYSQL_HOST } = require('./config');
+const { MYSQL_DATABASE,
+    MYSQL_PASSWORD,
+    MYSQL_USER,
+    MYSQL_HOST,
+    MYSQL_DIALECT } = require('./config');
 
 module.exports = {
     development: {
@@ -8,6 +12,6 @@ module.exports = {
         password: MYSQL_PASSWORD,
         database: MYSQL_DATABASE,
         host: MYSQL_HOST,
-        dialect: 'mysql'
+        dialect: MYSQL_DIALECT
     }
 };

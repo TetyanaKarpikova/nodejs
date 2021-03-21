@@ -10,5 +10,6 @@ module.exports = {
     MYSQL_USER: process.env.MYSQL_USER || 'user',
     MYSQL_PASSWORD: process.env.MYSQL_PASSWORD || '12345',
     MYSQL_DATABASE: process.env.MYSQL_DATABASE || 'home',
-    MYSQL_HOST: process.env.MYSQL_HOST || 'localhost'
+    MYSQL_HOST: process.env.MYSQL_HOST || 'localhost',
+    MYSQL_DIALECT: process.env.MYSQL_DIALECT || 'mysql'
 };

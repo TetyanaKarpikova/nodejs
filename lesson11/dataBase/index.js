@@ -15,7 +15,11 @@ const Sequelize = require('sequelize');
 const fs = require('fs');
 const path = require('path');
 
-const { MYSQL_USER, MYSQL_PASSWORD, MYSQL_DATABASE, MYSQL_HOST } = require('../config/config');
+const { MYSQL_USER,
+    MYSQL_PASSWORD,
+    MYSQL_DATABASE,
+    MYSQL_HOST,
+    MYSQL_DIALECT } = require('../config/config');
 
 module.exports = (() => {
     let instance;
@@ -26,7 +30,7 @@ module.exports = (() => {
             MYSQL_PASSWORD,
             {
                 host: MYSQL_HOST,
-                dialect: 'mysql'
+                dialect: MYSQL_DIALECT
             });
 
         const models = {};
