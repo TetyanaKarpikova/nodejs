@@ -21,6 +21,30 @@ const db = require('../dataBase').getInstance();
 const { modelNameEnum } = require('../constant');
 
 module.exports = {
+    findAll: () => {
+        const Client = db.getModel(modelNameEnum.Client);
+
+        return Client.findAll();
+    },
+
+    findOneClient: async (id) => {
+        const Client = db.getModel(modelNameEnum.Client);
+
+        const singleClient = await Client.findOne({
+            where: {
+                idClient: id
+            }
+        });
+
+        return singleClient;
+    },
+
+    postClient: (clientObject, transaction) => {
+        const Client = db.getModel(modelNameEnum.Client);
+
+        return Client.create(clientObject, { transaction });
+    },
+
     changeClient: async (id, clientObject, transaction) => {
         const Client = db.getModel(modelNameEnum.Client);
 
@@ -46,29 +70,5 @@ module.exports = {
         });
 
         return delClient;
-    },
-
-    findAll: () => {
-        const Client = db.getModel(modelNameEnum.Client);
-
-        return Client.findAll();
-    },
-
-    findOneClient: async (id) => {
-        const Client = db.getModel(modelNameEnum.Client);
-
-        const singleClient = await Client.findOne({
-            where: {
-                idClient: id
-            }
-        });
-
-        return singleClient;
-    },
-
-    postClient: (clientObject, transaction) => {
-        const Client = db.getModel(modelNameEnum.Client);
-
-        return Client.create(clientObject, { transaction });
     }
 };

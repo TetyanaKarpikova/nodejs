@@ -20,7 +20,8 @@ module.exports = {
             await clientService.postClient(req.body, transaction);
 
             await transaction.commit();
-            res.json(successMessageEnum.CLIENT_OK);
+
+            res.status(201).json(successMessageEnum.CLIENT_OK);
         } catch (e) {
             await transaction.rollback();
             next(e);
@@ -51,7 +52,8 @@ module.exports = {
             }
 
             await transaction.commit();
-            res.json(successMessageEnum.CLIENT_DELETE);
+
+            res.status(204).json(successMessageEnum.CLIENT_DELETE);
         } catch (e) {
             await transaction.rollback();
             next(e);
@@ -70,7 +72,8 @@ module.exports = {
             }
 
             await transaction.commit();
-            res.json(successMessageEnum.CLIENT_UPDATE);
+
+            res.status(201).json(successMessageEnum.CLIENT_UPDATE);
         } catch (e) {
             await transaction.rollback();
             next(e);
