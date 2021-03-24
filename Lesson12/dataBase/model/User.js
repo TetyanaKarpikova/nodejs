@@ -13,7 +13,7 @@ const userScheme = new Schema({
     age: { type: Number, default: 18 },
     gender: { type: String },
     email: { type: String, required: true },
-    password: { type: String, required: true },
+    password: { type: String, required: true, select: false },
     avatar: { type: String },
     docs: [{ type: String }],
     // cars: [carSubSheme]

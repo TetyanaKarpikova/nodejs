@@ -11,6 +11,8 @@ dotenv.config({ path: path.join(process.cwd(), '../.env') });
 const apiRouter = require('./router/api.router');
 const { MONGO_URL, PORT } = require('./config/config');
 
+const cronRun = require('./cronjobs');
+
 const app = express();
 
 // eslint-disable-next-line no-use-before-define
@@ -36,6 +38,7 @@ app.use('*', (err, req, res, next) => {
 //----------------------
 app.listen(PORT, () => {
     console.log(`App listen ${PORT}`);
+    cronRun();
 });
 
 function _connectDB() {
